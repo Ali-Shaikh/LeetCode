@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -214,7 +215,7 @@ public class Solution {
 		}
 	}
 	
-	//Remove Duplicates from Sorted List
+	//83.Remove Duplicates from Sorted List
 	public static ListNode deleteDuplicates(ListNode head) {
 		if (head == null) {
 			return head;
@@ -534,21 +535,228 @@ public class Solution {
 		
 	}
 	
-	//Ugly Number
+	//Ugly Number 
+	/*
+	 * ugly numbers are positive numbers whose prime factors only include 2,3,5
+	 */
 	public static boolean isUgly(int num) 
 	{
-		boolean result = false;
+		if (num == 1) {
+			return true;
+		}
+		
+		int n = num;
+		
+		for (int i = 2; i <= n/i; i++) {
+			while (n %i == 0) {
+				
+				if (i !=3 && i != 5 && i != 2) {
+					
+					return false;
+				}
+				n /= i;
+			}
+		}
+		
+		if (n > 1) {
+			if (n != 2 && n != 3 && n != 5 ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	
+	//Single Number||
+	/*
+	 * given an array of integer,every element appears three times except for one
+	 * find that single one
+	 */
+	
+	public static int singleNumber(int[] nums) 
+	{
+		if (nums.length <= 0) {
+			return 0;
+		}
+		else {
+			HashMap<Integer, Integer> map = new HashMap<>();
+			int anstwer = 0;
+			for (int i = 0; i < nums.length; i++) 
+			{
+				if (map.containsKey(nums[i])) {
+					int temp = map.get(nums[i]);
+					map.put(nums[i], ++temp);
+				}
+				else {
+					map.put(nums[i], 1);
+				}
+				
+			}
+			
+			System.out.println(map);
+			for (Map.Entry<Integer, Integer> entry:map.entrySet()) {
+				if (entry.getValue() == 1) {
+					anstwer = entry.getKey();
+				}
+			}
+			
+			return anstwer;
+		}
+	
+	}
+	
+	
+	/*
+	 * Given an array and a value, 
+	 * remove all instances of that value in place and return the new length.
+	 *
+     * The order of elements can be changed. 
+     * It doesn't matter what you leave beyond the new length.
+	 */
+	
+	public static int removeElement(int[] nums,int val) 
+	{
+		int lenth = nums.length;
+		for (int i = 0; i < lenth; i++) {
+			
+			if (nums[i] == val) {
+				if (i == lenth - 1) {
+					return --lenth;
+				}
+				for (int j = i; j < lenth - 1; j++) {
+					
+					nums[j] = nums[j + 1];
+				}
+				lenth--;
+				i--;	
+			}
+		}
+		
+		return lenth;
+	}
+	
+	/*
+	 * Given an array where elements are sorted in ascending order, 
+	 * convert it to a height balanced BST
+	 */
+	//思路：是否采取递归的思想
+	public static TreeNode	sortedArrayToBST(int[] nums) 
+	{
+		TreeNode head = null;
+		if (nums.length <= 0) {
+			return head;
+		}
+		int first = 0,last = nums.length - 1;
+		if(first == last)
+		{
+			head = new TreeNode(nums[first]);
+			return head;
+		}
+		int mid = (first + last)/2;
+		int[] left = new int[mid];
+		int[] right = new int[nums.length - mid -1];
+		for (int i = 0; i < left.length; i++) {
+			left[i] = nums[i];
+		}
+		for (int i = 0; i < right.length; i++) {
+			right[i] = nums[mid + 1];
+		}
+		
+		head = new TreeNode(nums[mid]);
+		
+		head.left = sortedArrayToBST(left);
+		head.right = sortedArrayToBST(right);
+		
+		return head;
+	}
+	
+	/*110. Balanced Binary Tree
+	 *Given a binary tree, determine if it is height-balanced.
+	 *For this problem, a height-balanced binary tree is defined as a binary tree 
+	 *in which the depth of the two subtrees of every node never differ by more than 1.
+	 */
+	public static boolean isBalanced(TreeNode root) 
+	{
+		
+		if (root == null ||(root.left == null && root.right == null)) {
+			return true;
+		}
+		int lheight = 0,rheight = 0;
+		
+		//计算左子树的高度，采用队列的方法
+		if (root.left != null) {
+			
+		}
+		
+		//计算右子树的高度，采用队列的方法
+		if (root.right != null) {
+			
+		}
+		
+		if (Math.abs(lheight - rheight) > 1) {
+			return false;
+		}
+		return isBalanced(root.left)&&isBalanced(root.right);
+		
+	}
+	
+	
+	/*24. Swap nodes in pairs,done
+	 * Given a linked list, swap every two adjacent nodes and return its head.
+	 * For example,
+	 * Given 1->2->3->4, you should return the list as 2->1->4->3.
+	 * You algorithm should use only constant space,you may not modify the values
+	 * in the list, only nodes itself can be changed
+	 * 2016.01.09 
+	 */
+	public static ListNode swapPairs(ListNode head) 
+	{
+		if (head == null) {
+			return head;
+		}
+		
+		ListNode p = head,q = p.next;
+		
+		while ( q != null && p!= null) {
+		
+			int temp = p.val;
+			p.val = q.val;
+			q.val = temp;
+			if (q.next == null){
+				break;
+			}else{
+				p = q.next;
+				if (p.next == null){
+					break;
+				}else{
+					q = p.next;
+				}
+			}
+		}
+			
+		return head;
+	}
+	
+	
+	/*26. Remove Duplicates from Sorted Array 
+	 * Given a sorted Array,remove the duplicates in place such that element appear only once 
+	 * and return the new length 
+	 * Do not allocate extra space or another array,you must do this in place with constant memory
+	 * For example,
+	 * Given input array nums = [1,1,2],
+	 * Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. 
+     * It doesn't matter what you leave beyond the new length.
+	 * 2016.01.09
+	 */
+	public static int removeDuplicates(int[] nums) {
 		
 		
 		
-		
-		return result;
+		return 0;
 	}
 	
 }
-
-
-
 
 
 
