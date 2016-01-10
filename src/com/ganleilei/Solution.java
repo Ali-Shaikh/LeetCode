@@ -805,24 +805,49 @@ public class Solution {
 	 * The number of elements initialized in nums1 and nums2 are m and n respectively
 	 */
 	public static void merge(int[] nums1,int m, int[] nums2,int n) {
-		int t = m + n , i = 0, j = 0;// j是nums2的迭代flag，i是nums1的插入位置,m是nums1的当前长度
-			while (i < m - 1 && j < n) {
-				if (nums2[j] >= nums1[i] && nums2[j] < nums1[i+1]) {
-					for (int k = m; k > i; k--) {
-						nums1[k] = nums1[k - 1];
-					}
-					m++;
-					nums1[i] = nums2[j];
-					j++;
-				} else {
-					i++;
-				}	
+//		int t = m + n, i = 0, j = 0;// j是nums2的迭代flag，i是nums1的插入位置,m是nums1的当前长度
+//		while (i < m  && j < n) {
+//			if (i == 0) {
+//				if (nums2[j] < nums1[i]) {
+//					for (int k = m; k > i; k--) {
+//						nums1[k] = nums1[k - 1];
+//					}
+//					m++;
+//					nums1[i] = nums2[j];
+//					j++;
+//				}
+//			}
+//			if (j < n ) {
+//				if (nums2[j] >= nums1[i] && nums2[j] < nums1[i + 1]) {
+//					for (int k = m; k > i+1; k--) {
+//						nums1[k] = nums1[k - 1];
+//					}
+//					m++;
+//					nums1[i+1] = nums2[j];
+//					j++;
+//				} else {
+//					i++;
+//				}
+//			}
+//		}
+//
+//		while (j < n && m < t) {
+//			nums1[m++] = nums2[j++];
+//		}
+		
+		/*还可以从后往前填充数组*/
+		int total = m + n - 1, lenth1 = m - 1, lenth2 = n - 1;
+		while (lenth1 >= 0 && lenth2 >= 0) {
+			if (nums1[lenth1] >= nums2[lenth2]) {
+				nums1[total--] = nums1[lenth1--];
+			} else {
+				nums1[total--] = nums2[lenth2--];
 			}
-		
-		while (j < n && m < t) {
-			nums1[m++] = nums2[j++];
 		}
-		
+
+		while(lenth1 == -1 && lenth2 >= 0) {
+			nums1[lenth2] = nums2[lenth2--];
+		}
 		Tool.printArray(nums1);
 	}
 	
