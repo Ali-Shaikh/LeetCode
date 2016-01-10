@@ -747,14 +747,85 @@ public class Solution {
 	 * Given input array nums = [1,1,2],
 	 * Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. 
      * It doesn't matter what you leave beyond the new length.
-	 * 2016.01.09
+	 * 2016.01.09,undo
+	 * 保存两个flag，一个遍历flag，一个赋值flag
 	 */
 	public static int removeDuplicates(int[] nums) {
-		
-		
-		
-		return 0;
+		if (nums.length <= 0) {
+			return 0;
+		} else {
+			int j=0;
+			for(int i = 0;i<nums.length-1;i++){
+				if(nums[i]==nums[i+1]){	
+					continue;
+				}
+				else{
+				   	nums[++j] = nums[i+1];
+				}
+			}
+			return j+1;
+		}
 	}
+	
+	/*
+	 * 51.N-Queens 
+	 * The n-queens puzzle is the problem of placing n queens on an n*n chessboard 
+	 * such that no two queens attack each other,同一行、同一列、同一斜线上的皇后都会主动攻击
+	 * Given an integer n,return all distinct solutions to the n-queens puzzle
+	 * Each solution contains a distinct board configuration of the n-queens' placement
+	 * where 'Q' and '.' both indicate a queen and ab empty space respectively
+	 * For example,
+	 * There exist two distinct solutions to the 4-queens puzzle:
+	 * [
+	 *  [".Q..",//solution 1
+	 *   "...Q",
+	 *   "Q...",
+	 *   "..Q."],
+	 *   
+	 *   ["..Q.",//solution 2
+	 *    "Q...",
+	 *    "...Q",
+	 *    ".Q.."]
+	 * ] 
+	 */
+	public static List<List<String>> solveNQueens(int n) {
+		List<List<String>> result = new ArrayList<List<String>>();
+		
+		
+		
+		return result;
+	}
+	
+	/*
+	 * 88. Merge Sorted Array
+	 * Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+	 * Note:
+	 * You may assume that nums1 has enough space (size that is greater or equal to m + n)
+	 * to hold additional elements from nums2. 
+	 * The number of elements initialized in nums1 and nums2 are m and n respectively
+	 */
+	public static void merge(int[] nums1,int m, int[] nums2,int n) {
+		int t = m + n , i = 0, j = 0;// j是nums2的迭代flag，i是nums1的插入位置,m是nums1的当前长度
+			while (i < m - 1 && j < n) {
+				if (nums2[j] >= nums1[i] && nums2[j] < nums1[i+1]) {
+					for (int k = m; k > i; k--) {
+						nums1[k] = nums1[k - 1];
+					}
+					m++;
+					nums1[i] = nums2[j];
+					j++;
+				} else {
+					i++;
+				}	
+			}
+		
+		while (j < n && m < t) {
+			nums1[m++] = nums2[j++];
+		}
+		
+		Tool.printArray(nums1);
+	}
+	
 	
 }
 
